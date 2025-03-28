@@ -1,0 +1,28 @@
+{
+  "name": "floorion.js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "demo": "npx live-server --open=/demo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JackTaylor1114/floorion.js.git"
+  },
+  "keywords": [],
+  "author": "JackTaylor1114",
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/JackTaylor1114/floorion.js/issues"
+  },
+  "homepage": "https://github.com/JackTaylor1114/floorion.js#readme",
+  "dependencies": {
+    "canvas": "^3.1.0",
+    "konva": "^9.3.20"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
