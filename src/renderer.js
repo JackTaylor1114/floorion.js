@@ -1,83 +1,79 @@
-export class BuildingPlan {
-    constructor(containerId, data) {
-        this.container = document.getElementById(containerId);
-        if (!this.container) {
-            console.error(`Container mit ID "${containerId}" nicht gefunden.`);
-            return;
-        }
-        this.data = data;
-        this.initKonva();
+import { enableZoom } from "./ZoomHandler.js";
+
+class Floorplan
+{
+  /**
+   * Constructor
+   * @param {*} parentContainerId The element ID of the parent container 
+   * @param {*} input The input data in JSON format
+   */
+  constructor(parentContainerId, input)
+  {
+    this.parentContainer = document.getElementById(parentContainerId);
+    if (!this.parentContainer)
+    {
+      console.error(`Container Element "${parentContainerId}" not found`);
+      return;
     }
+    this.data = input;
+    this.initKonva();
+  }
 
-    initKonva() {
-        this.stage = new Konva.Stage({
-            container: this.container.id,
-            width: this.container.clientWidth,
-            height: this.container.clientHeight,
-            draggable: true
-        });
+  initKonva()
+  {
+    this.stage = new Konva.Stage({
+      container: this.parentContainer.id,
+      width: this.parentContainer.clientWidth,
+      height: this.parentContainer.clientHeight,
+      draggable: true
+    });
 
-        this.layer = new Konva.Layer();
-        this.stage.add(this.layer);
+    this.layer = new Konva.Layer();
+    this.stage.add(this.layer);
 
-        this.drawRooms();
-        this.enableZoom();
-    }
+    this.drawRooms();
+    enableZoom(this.stage, this.layer);
+  }
 
-    drawRooms() {
-        this.data.raeume.forEach(raum => {
-            const rect = new Konva.Rect({
-                x: raum.x,
-                y: raum.y,
-                width: raum.width,
-                height: raum.height,
-                fill: raum.color || "gray",
-                stroke: 'black',
-                strokeWidth: 2,
-                draggable: true
-            });
+  drawRooms()
+  {
+    this.data.raeume.forEach(raum =>
+    {
+      const rect = new Konva.Rect({
+        x: raum.x,
+        y: raum.y,
+        width: raum.width,
+        height: raum.height,
+        fill: raum.color || "gray",
+        stroke: 'black',
+        strokeWidth: 2,
+        draggable: false
+      });
 
-            const label = new Konva.Text({
-                x: raum.x + 10,
-                y: raum.y + 10,
-                text: raum.name,
-                fontSize: 16,
-                fontFamily: 'Arial',
-                fill: 'black'
-            });
+      const label = new Konva.Text({
+        x: raum.x + 10,
+        y: raum.y + 10,
+        text: raum.name,
+        fontSize: 16,
+        fontFamily: 'Arial',
+        fill: 'black'
+      });
 
-            rect.on('dragmove', () => {
-                label.x(rect.x() + 10);
-                label.y(rect.y() + 10);
-            });
+      this.layer.add(rect);
+      this.layer.add(label);
+    });
 
-            this.layer.add(rect);
-            this.layer.add(label);
-        });
-
-        this.layer.draw();
-    }
-
-    enableZoom() {
-        this.stage.on('wheel', (e) => {
-            e.evt.preventDefault();
-            const scaleBy = 1.1;
-            const oldScale = this.stage.scaleX();
-            const mousePointTo = {
-                x: (e.evt.offsetX - this.stage.x()) / oldScale,
-                y: (e.evt.offsetY - this.stage.y()) / oldScale,
-            };
-            const newScale = e.evt.deltaY > 0 ? oldScale / scaleBy : oldScale * scaleBy;
-            this.stage.scale({ x: newScale, y: newScale });
-            this.stage.position({
-                x: e.evt.offsetX - mousePointTo.x * newScale,
-                y: e.evt.offsetY - mousePointTo.y * newScale,
-            });
-            this.stage.batchDraw();
-        });
-    }
+    this.layer.draw();
+  }
 }
 
-export function renderBuildingPlan(containerId, data) {
-    return new BuildingPlan(containerId, data);
+/**
+ * Render a floorplan
+ * @param {*} parentContainerId The element ID of the parent container 
+ * @param {*} input The input data in JSON format
+ * @returns A floorplan instance
+ */
+export function renderFloorionPlan(parentContainerId, input)
+{
+  return new Floorplan(parentContainerId, input);
 }

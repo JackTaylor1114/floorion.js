@@ -1,3 +1,2 @@
-import { BuildingPlan, renderBuildingPlan } from './src/renderer.js';
-
-export { BuildingPlan, renderBuildingPlan };
+import { renderFloorionPlan } from './src/renderer.js';
+export { renderFloorionPlan };
