@@ -1,28 +1,35 @@
+import Konva from "konva";
+
 /**
  * Enable zoom functionality and show a zoom indicator
  * @param {*} stage The default stage
  * @param {*} layer The drawing layer
  */
-export function enableZoom(stage, layer)
+export function enableZoom(stage)
 {
   const scaleBy = 1.1;
+  stage.add
 
-  //Zoom Indicator Text
-  const zoomText = new Konva.Text({
-    x: 10,
-    y: 10,
-    text: "Zoom: 100%",
-    fontSize: 20,
-    fontFamily: "Arial",
-    fill: "black",
-    name: "zoomText",
-    listening: false
-  });
+  const uiLayer = new Konva.Layer();
+  stage.add(uiLayer);
 
-  layer.add(zoomText);
-  layer.draw();
+  // Zoom-Text erstellen (falls noch nicht vorhanden)
+  let zoomText = uiLayer.findOne(".zoomText");
+  if (!zoomText)
+  {
+    zoomText = new Konva.Text({
+      x: 10,
+      y: 10,
+      text: "Zoom: 100%",
+      fontSize: 20,
+      fontFamily: "Arial",
+      fill: "black",
+      name: "zoomText",
+      listening: false
+    });
+    uiLayer.add(zoomText);
+  }
 
-  //Handle Mouse Wheel Event
   stage.on("wheel", (e) =>
   {
     e.evt.preventDefault();
@@ -32,8 +39,8 @@ export function enableZoom(stage, layer)
       y: (e.evt.offsetY - stage.y()) / oldScale,
     };
 
-    //Calculate new zoom level
     const newScale = e.evt.deltaY > 0 ? oldScale / scaleBy : oldScale * scaleBy;
+
     stage.scale({ x: newScale, y: newScale });
     stage.position({
       x: e.evt.offsetX - mousePointTo.x * newScale,
@@ -42,13 +49,13 @@ export function enableZoom(stage, layer)
 
     stage.batchDraw();
 
-    //Update the zoom indicator text
+    // Zoom-Text aktualisieren und fixieren
     zoomText.text(`Zoom: ${Math.round(newScale * 100)}%`);
     zoomText.absolutePosition({ x: 10, y: 10 });
     zoomText.scale({ x: 1 / newScale, y: 1 / newScale });
   });
 
-  //Fix the zoom indicator position when dragging
+  // Falls die Bühne verschoben wird, bleibt der Zoom-Text fest
   stage.on("dragmove", () =>
   {
     zoomText.absolutePosition({ x: 10, y: 10 });

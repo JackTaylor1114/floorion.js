@@ -1,2 +1,2 @@
-import { renderFloorionPlan } from './src/renderer.js';
+import { renderFloorionPlan } from './src/FloorplanRenderer.js';
 export { renderFloorionPlan };
