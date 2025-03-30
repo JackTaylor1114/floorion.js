@@ -1,5 +1,6 @@
-import { enableZoom } from "./ZoomHandler.js";
 import Konva from "konva";
+import { enableZoom } from "./ZoomHandler.js";
+import { createLevelSelector } from "./LevelSelector.js";
 
 class Floorplan
 {
@@ -17,118 +18,70 @@ class Floorplan
       return;
     }
     this.data = input;
+
     this.initKonva();
   }
 
   /**
-   * Initialize Konva framework
+   * Initialize the Konva framework
    */
-  initKonva() {
+  initKonva()
+  {
+    //Create a new stage for drawing
     this.stage = new Konva.Stage({
-        container: this.parentContainer.id,
-        width: this.parentContainer.clientWidth,
-        height: this.parentContainer.clientHeight,
-        draggable: true
+      container: this.parentContainer.id,
+      width: this.parentContainer.clientWidth,
+      height: this.parentContainer.clientHeight,
+      draggable: true
     });
 
-    this.layer = new Konva.Layer();
-    this.stage.add(this.layer);
+    //Add the main layer to the stage
+    this.mainLayer = new Konva.Layer();
+    this.stage.add(this.mainLayer);
 
-    this.createEtagenSelector();
+    //Add the level selector and zoom indicator
+    createLevelSelector(this);
+    enableZoom(this.stage, this.mainLayer);
+
+    //Initial drawing of the floorplan
     this.drawRooms();
-    enableZoom(this.stage, this.layer);
-}
+  }
 
+  /**
+   * Draw the content of the current level to the stage
+   */
+  drawRooms()
+  {
+    //Remove all UI elements on the current layer
+    this.mainLayer.destroyChildren();
 
-
-
-drawRooms() {
-  // Nur die Raum-Layer löschen, NICHT die UI-Layer!
-  this.layer.destroyChildren();  
-
-  this.data.etagen[this.currentEtageIndex ?? 0].raeume.forEach(raum => {
+    this.data.levels[this.currentLevelIndex].rooms.forEach(room =>
+    {
       const rect = new Konva.Rect({
-          x: raum.x,
-          y: raum.y,
-          width: raum.width,
-          height: raum.height,
-          fill: raum.color || "gray",
-          stroke: 'black',
-          strokeWidth: 2
+        x: room.x,
+        y: room.y,
+        width: room.width,
+        height: room.height,
+        fill: room.color || "gray",
+        stroke: 'black',
+        strokeWidth: 2
       });
 
       const label = new Konva.Text({
-          x: raum.x + 10,
-          y: raum.y + 10,
-          text: raum.name,
-          fontSize: 16,
-          fontFamily: 'Arial',
-          fill: 'black'
+        x: room.x + 10,
+        y: room.y + 10,
+        text: room.name,
+        fontSize: 16,
+        fontFamily: 'Arial',
+        fill: 'black'
       });
 
-      this.layer.add(rect);
-      this.layer.add(label);
-  });
+      this.mainLayer.add(rect);
+      this.mainLayer.add(label);
+    });
 
-  this.layer.draw();
-}
-
-
-
-
-
-createEtagenSelector() {
-  // Überprüfen, ob der Selector bereits existiert
-  if (document.getElementById("etagen-select")) return;
-
-  // Container-Element holen
-  const container = this.parentContainer;
-
-  // Wrapper erstellen (damit Selector unter der Zeichenfläche bleibt)
-  const wrapper = document.createElement("div");
-  wrapper.style.display = "flex";
-  wrapper.style.flexDirection = "column";
-  wrapper.style.alignItems = "center";
-
-  // Original-Container verschieben
-  container.parentNode.insertBefore(wrapper, container);
-  wrapper.appendChild(container);
-
-  // Select-Element für die Etagenwahl erstellen
-  const select = document.createElement("select");
-  select.id = "etagen-select";
-  select.style.marginTop = "5px";
-  select.style.padding = "5px";
-  select.style.fontSize = "16px";
-
-  // Optionen für Etagen hinzufügen
-  this.data.etagen.forEach((etage, index) => {
-      const option = document.createElement("option");
-      option.value = index;
-      option.textContent = etage.name;
-      select.appendChild(option);
-  });
-
-  // Event-Listener für Etagen-Wechsel
-  select.addEventListener("change", (event) => {
-      this.changeEtage(parseInt(event.target.value, 10));
-  });
-
-  // Select-Element zum Wrapper hinzufügen
-  wrapper.appendChild(select);
-
-  // Standard-Etage setzen
-  select.value = this.currentEtageIndex;
-}
-
-changeEtage(index) {
-  this.currentEtageIndex = index;
-  this.drawRooms(); // Räume der neuen Etage zeichnen
-
-  // Dropdown-Value aktualisieren
-  document.getElementById("etagen-select").value = index;
-}
-
+    this.mainLayer.draw();
+  }
 }
 
 /**

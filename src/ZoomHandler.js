@@ -8,12 +8,12 @@ import Konva from "konva";
 export function enableZoom(stage)
 {
   const scaleBy = 1.1;
-  stage.add
 
+  //Create a new layer for the zoom indicator
   const uiLayer = new Konva.Layer();
   stage.add(uiLayer);
-
-  // Zoom-Text erstellen (falls noch nicht vorhanden)
+  
+  //Add the zoom indicator
   let zoomText = uiLayer.findOne(".zoomText");
   if (!zoomText)
   {
@@ -30,6 +30,7 @@ export function enableZoom(stage)
     uiLayer.add(zoomText);
   }
 
+  //Listen for mouse wheel events to zoom in and out
   stage.on("wheel", (e) =>
   {
     e.evt.preventDefault();
@@ -49,13 +50,13 @@ export function enableZoom(stage)
 
     stage.batchDraw();
 
-    // Zoom-Text aktualisieren und fixieren
+    //Update zoom text and position
     zoomText.text(`Zoom: ${Math.round(newScale * 100)}%`);
     zoomText.absolutePosition({ x: 10, y: 10 });
     zoomText.scale({ x: 1 / newScale, y: 1 / newScale });
   });
 
-  // Falls die Bühne verschoben wird, bleibt der Zoom-Text fest
+  //Fix the zoom text when stage is dragged
   stage.on("dragmove", () =>
   {
     zoomText.absolutePosition({ x: 10, y: 10 });
