@@ -74,7 +74,7 @@ If the input format does not match the requirements, an error will be thrown.
             "name": "1st Floor",
             "rooms": 
             [
-              { "name": "Reception", "x": 100, "y": 100, "width": 200, "height": 150, "color": "pink" }
+              { "name": "Lobby", "x": 100, "y": 100, "width": 200, "height": 150, "color": "red" }
             ]
           }
         ]
