@@ -52,8 +52,8 @@ If the input format does not match the requirements, an error will be thrown.
             "name": "1st Floor",
             "rooms": 
             [
-              { "name": "Room 101", "x": 50, "y": 50, "width": 200, "height": 150, "color": "blue" },
-              { "name": "Room 102", "x": 300, "y": 50, "width": 150, "height": 150, "color": "red" }
+              { "name": "Room 1", "x": 50, "y": 50, "width": 80, "height": 50, "color": "blue" },
+              { "name": "Room 2", "x": 90, "y": 50, "width": 70, "height": 50, "color": "red" }
             ]
           },
           {
