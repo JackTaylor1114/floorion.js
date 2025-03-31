@@ -31,7 +31,7 @@ If the input format does not match the requirements, an error will be thrown.
 
 * A floorplan contains an array of `1..n buildings`
 * Each building has a `name` property and an array of `1..n levels`
-* Each level has a `name` property and and array `1..n rooms`
+* Each level has a `name` property and an array of `1..n rooms`
 * Each room has the following properties:
   * `name`
   * `x`
@@ -40,6 +40,7 @@ If the input format does not match the requirements, an error will be thrown.
   * `height`
   * `color`
 
+  Example:
   ```json
   {
     "buildings": 
