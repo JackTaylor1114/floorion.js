@@ -1,6 +1,8 @@
 import Konva from "konva";
 import { enableZoom } from "./ZoomHandler.js";
 import { createLevelSelector } from "./LevelSelector.js";
+import { validateInputData } from "./InputValidation.js";
+import { createBuildingSelector } from "./BuildingSelector.js";
 
 class Floorplan
 {
@@ -14,9 +16,11 @@ class Floorplan
     this.parentContainer = document.getElementById(parentContainerId);
     if (!this.parentContainer)
     {
-      console.error(`Container Element "${parentContainerId}" not found`);
-      return;
+      throw new Error(`container element "${parentContainerId}" not found`);
     }
+
+    //Validate the input data
+    if (!validateInputData(input)) return;
     this.data = input;
 
     this.initKonva();
@@ -39,7 +43,8 @@ class Floorplan
     this.mainLayer = new Konva.Layer();
     this.stage.add(this.mainLayer);
 
-    //Add the level selector and zoom indicator
+    //Add the building and level selector and zoom indicator
+    createBuildingSelector(this)
     createLevelSelector(this);
     enableZoom(this.stage, this.mainLayer);
 
@@ -55,7 +60,7 @@ class Floorplan
     //Remove all UI elements on the current layer
     this.mainLayer.destroyChildren();
 
-    this.data.levels[this.currentLevelIndex].rooms.forEach(room =>
+    this.data.buildings[this.currentBuildingIndex].levels[this.currentLevelIndex].rooms.forEach(room =>
     {
       const rect = new Konva.Rect({
         x: room.x,

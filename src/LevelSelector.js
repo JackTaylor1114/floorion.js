@@ -14,18 +14,18 @@ export function createLevelSelector(renderer)
   levelSelector.id = SELECTOR_ID;
   levelSelector.style.position = "relative";
   levelSelector.style.top = "-30px";
-  levelSelector.style.left = "5px";
+  levelSelector.style.left = "10px";
   levelSelector.style.padding = "3px";
   levelSelector.style.background = "white";
   levelSelector.style.border = "1px solid black";
   levelSelector.style.zIndex = "99";
 
   //Add selection options
-  renderer.data.levels.forEach((etage, index) =>
+  renderer.data.buildings[renderer.currentBuildingIndex].levels.forEach((level, index) =>
   {
     const option = document.createElement("option");
     option.value = index;
-    option.textContent = etage.name;
+    option.textContent = level.name;
     levelSelector.appendChild(option);
   });
 
@@ -44,6 +44,24 @@ export function createLevelSelector(renderer)
 }
 
 /**
+ * Update the selection options of the level selector
+ * @param {*} renderer The renderer instance 
+ */
+export function updateLevels(renderer) 
+{
+  //Clear the selector and add the levels of the current building
+  let levelSelector = document.getElementById(SELECTOR_ID);
+  levelSelector.innerHTML = "";
+  renderer.data.buildings[renderer.currentBuildingIndex].levels.forEach((level, index) =>
+  {
+    const option = document.createElement("option");
+    option.value = index;
+    option.textContent = level.name;
+    levelSelector.appendChild(option);
+  });
+}
+
+/**
  * Switch the currently shown level
  * @param {*} renderer The renderer instance 
  * @param {*} index The index of the level to show
@@ -51,6 +69,6 @@ export function createLevelSelector(renderer)
 function switchLevel(renderer, index)
 {
   renderer.currentLevelIndex = index;
-  renderer.drawRooms(); // Räume der neuen Etage zeichnen
+  renderer.drawRooms();
   document.getElementById(SELECTOR_ID).value = index;
 }
