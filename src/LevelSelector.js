@@ -69,6 +69,6 @@ export function updateLevels(renderer)
 function switchLevel(renderer, index)
 {
   renderer.currentLevelIndex = index;
-  renderer.drawRooms();
+  renderer.draw();
   document.getElementById(SELECTOR_ID).value = index;
 }

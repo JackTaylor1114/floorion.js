@@ -49,43 +49,88 @@ class Floorplan
     enableZoom(this.stage, this.mainLayer);
 
     //Initial drawing of the floorplan
-    this.drawRooms();
+    this.draw();
+
+    //Resize the canvas
+    window.addEventListener("resize", () => this.resizeCanvas());
   }
 
   /**
-   * Draw the content of the current level to the stage
+   * Draws the content of the current building and level to the stage
    */
-  drawRooms()
+  draw()
   {
     //Remove all UI elements on the current layer
     this.mainLayer.destroyChildren();
 
-    this.data.buildings[this.currentBuildingIndex].levels[this.currentLevelIndex].rooms.forEach(room =>
+    const currentBuilding = this.data.buildings[this.currentBuildingIndex];
+    const currentLevel = currentBuilding.levels[this.currentLevelIndex];
+
+    //Draw the building base
+    const flatBuildingPoints = currentBuilding.points.flatMap(point => point);
+    const buildingBase = new Konva.Line({
+      points: flatBuildingPoints,
+      fill: currentBuilding.color,
+      stroke: 'black',
+      strokeWidth: 2,
+      closed: true
+    });
+    this.mainLayer.add(buildingBase);
+
+    //Draw the level base
+    const flatLevelPoints = currentLevel.points.flatMap(point => point);
+    const levelBase = new Konva.Line({
+      points: flatLevelPoints,
+      fill: currentLevel.color,
+      stroke: 'black',
+      strokeWidth: 2,
+      closed: true
+    });
+    this.mainLayer.add(levelBase);
+
+    //Draw the rooms in the level
+    currentLevel.rooms.forEach(room =>
     {
-      const rect = new Konva.Rect({
-        x: room.x,
-        y: room.y,
-        width: room.width,
-        height: room.height,
-        fill: room.color || "gray",
+      const flatRoomPoints = room.points.flatMap(point => point);
+      const roomPolygon = new Konva.Line({
+        points: flatRoomPoints,
+        fill: room.color,
         stroke: 'black',
-        strokeWidth: 2
+        strokeWidth: 2,
+        closed: true
       });
 
+      // Berechne die Position für den Namen (Mittelpunkt des Polygons)
+      const xValues = room.points.map(p => p[0]);
+      const yValues = room.points.map(p => p[1]);
+      const centerX = (Math.min(...xValues) + Math.max(...xValues)) / 2;
+      const centerY = (Math.min(...yValues) + Math.max(...yValues)) / 2;
+
       const label = new Konva.Text({
-        x: room.x + 10,
-        y: room.y + 10,
+        x: centerX - room.name.length * 3, // Text mittig ausrichten
+        y: centerY - 8,
         text: room.name,
-        fontSize: 16,
+        fontSize: room.fontsize,
         fontFamily: 'Arial',
         fill: 'black'
       });
 
-      this.mainLayer.add(rect);
+      this.mainLayer.add(roomPolygon);
       this.mainLayer.add(label);
     });
 
     this.mainLayer.draw();
+  }
+
+  /**
+  * Resize the canvas if the window is resized
+  */
+  resizeCanvas() 
+  {
+    const newWidth = this.parentContainer.clientWidth;
+    const newHeight = this.parentContainer.clientHeight;
+    this.stage.width(newWidth);
+    this.stage.height(newHeight);
   }
 }
 

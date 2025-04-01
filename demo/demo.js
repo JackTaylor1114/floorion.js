@@ -8,35 +8,67 @@ document.addEventListener("DOMContentLoaded", () =>
     "buildings": [
       {
         "name": "Building A",
+        "color": "Grey",
+        "points": [[50, 50], [50, 400], [1000, 400], [1000, 50]],
         "levels":
           [
             {
               "name": "1st Floor",
+              "color": "DarkGrey",
+              "points": [[60, 60], [60, 390], [990, 390], [990, 60]],
               "rooms":
                 [
-                  { "name": "Lobby", "x": 50, "y": 50, "width": 200, "height": 150, "color": "lightblue" },
-                  { "name": "Office 1", "x": 300, "y": 50, "width": 150, "height": 150, "color": "lightgray" }
+                  {
+                    "name": "Office 1",
+                    "fontsize": 15,
+                    "points": [[60, 60], [160, 60], [160, 200], [60, 200]],
+                    "color": "Red"
+                  },
+                  {
+                    "name": "Office 2",
+                    "points": [[500, 200], [500, 350], [800, 350], [800, 200]],
+                    "color": "LightBlue"
+                  }
                 ]
             },
             {
               "name": "2nd Floor",
+              "color": "DarkGrey",
+              "points": [[60, 60], [60, 390], [990, 390], [990, 60]],
               "rooms":
                 [
-                  { "name": "Meeting Room", "x": 50, "y": 50, "width": 250, "height": 150, "color": "lightgreen" },
-                  { "name": "Office 2", "x": 350, "y": 50, "width": 150, "height": 150, "color": "beige" }
+                  {
+                    "name": "Office 1",
+                    "fontsize": 15,
+                    "points": [[60, 60], [160, 60], [160, 200], [60, 200]],
+                    "color": "Red"
+                  },
+                  {
+                    "name": "Office 2",
+                    "points": [[500, 200], [500, 350], [800, 350], [800, 200]],
+                    "color": "LightBlue"
+                  }
                 ]
             }
           ]
       },
       {
         "name": "Building B",
+        "color": "Grey",
+        "points": [[50, 50], [50, 400], [1000, 400], [1000, 50]],
         "levels":
           [
             {
               "name": "Ground Floor",
+              "color": "DarkGrey",
+              "points": [[60, 60], [60, 390], [990, 390], [990, 60]],
               "rooms":
                 [
-                  { "name": "Reception", "x": 100, "y": 100, "width": 200, "height": 150, "color": "pink" }
+                  {
+                    "name": "Office 1",
+                    "points": [[20, 20], [100, 20], [100, 100], [20, 100]],
+                    "color": "lightblue"
+                  }
                 ]
             }
           ]

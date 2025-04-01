@@ -29,18 +29,36 @@ renderFloorionPlan("container-id", data);
 The `renderFloorionPlan` takes an JSON object as input which represents your floorplan.\
 If the input format does not match the requirements, an error will be thrown.
 
-* A floorplan contains an array of `1..n buildings`
-* Each building has a `name` property and an array of `1..n levels`
-* Each level has a `name` property and an array of `1..n rooms`
-* Each room has the following properties:
-  * `name`
-  * `x`
-  * `y`
-  * `width`
-  * `height`
-  * `color`
+> Points are defined as array with two positive numbers.\
+Point `[0,0]` is the top left corner of the floorplan.\
+The `x-axis` is left to right and the `y-axis` is top to bottom.
 
-Example:
+> HTML color names or hex values can be used as colors.
+
+A floorplan is defined as an array of `1..n buildings` with the following structure:
+
+#### Buildings
+
+Each building has a `name` and a `color` property.\
+The base shape is defined by an array with `4..n points`.\
+Buildings contain an array of `1..n levels`.
+
+#### Levels
+
+Each level has a `name` and `color` property.\
+The base shape is defined by an array with `4..n points`.\
+Levels contain an array of `1..n rooms`.
+
+#### Rooms
+
+Each room has the following properties:
+* `name`
+* `fontsize` 
+* `color`
+
+The shape of a room is defined by an array of `4..n points`.
+
+*Example:*
 ```json
 {
   "buildings": 
@@ -83,7 +101,6 @@ Example:
   ]
 }
 ```
-
 ## Dependencies
 
 | Package    | Usage | Link |

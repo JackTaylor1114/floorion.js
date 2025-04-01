@@ -56,6 +56,6 @@ function switchBuilding(renderer, index)
   renderer.currentBuildingIndex = index;
   renderer.currentLevelIndex = 0;
   updateLevels(renderer);
-  renderer.drawRooms();
+  renderer.draw();
   document.getElementById(SELECTOR_ID).value = index;
 }
