@@ -2,6 +2,8 @@
 
 A simple JavaScript library to render floor plans on a website.
 
+![Screenshot](https://github.com/JackTaylor1114/floorion.js/blob/main/img/demo.png?raw=true)
+
 ## Table of Content
 1. [Usage](#usage)  
 2. [Dependencies](#dependencies)  
@@ -10,7 +12,7 @@ A simple JavaScript library to render floor plans on a website.
 
 ## Usage
 
-To add a floorplan on a site, create a `div` container element:
+To add a floorplan on a website, create a `div` container element:
 ```html
 <div id="container-id"></div>
 ```
@@ -23,17 +25,13 @@ Pass the ID of the container element and the room data into the function:
 ```js
 renderFloorionPlan("container-id", data);
 ```
+The floorplan displays one level of a building.\
+You can switch between different buildings and levels with a selector.
 
 ### Input Data
 
 The `renderFloorionPlan` takes an JSON object as input which represents your floorplan.\
 If the input format does not match the requirements, an error will be thrown.
-
-> Points are defined as array with two positive numbers.\
-Point `[0,0]` is the top left corner of the floorplan.\
-The `x-axis` is left to right and the `y-axis` is top to bottom.
-
-> HTML color names or hex values can be used as colors.
 
 A floorplan is defined as an array of `1..n buildings` with the following structure:
 
@@ -58,42 +56,76 @@ Each room has the following properties:
 
 The shape of a room is defined by an array of `4..n points`.
 
+> Points are defined as array with two positive numbers.\
+Point `[0,0]` is the top left corner of the floorplan.\
+The `x-axis` is left to right and the `y-axis` is top to bottom.\
+HTML color names and hex values can be used as colors.
+
 *Example:*
 ```json
 {
-  "buildings": 
-  [
+  "buildings": [
     {
       "name": "Building A",
-      "levels": 
-      [
+      "color": "Grey",
+      "points": [[50, 50 ],[50, 400],[1000,400],[1000,50]],
+      "levels": [
         {
           "name": "1st Floor",
-          "rooms": 
-          [
-            { "name": "Room 1", "x": 50, "y": 50, "width": 80, "height": 50, "color": "blue" },
-            { "name": "Room 2", "x": 90, "y": 50, "width": 70, "height": 50, "color": "red" }
+          "color": "DarkGrey",
+          "points": [[60,60],[60,390],[990,390],[990,60]],
+          "rooms": [
+            {
+              "name": "Office 1",
+              "fontsize": 15,
+              "points": [[60,60],[160,60],[160,200],[60,200]],
+              "color": "Red"
+            },
+            {
+              "name": "Office 2",
+              "fontsize": 15,
+              "points": [[500,200],[500,350],[800,350],[800,200]],
+              "color": "LightBlue"
+            }
           ]
         },
         {
           "name": "2nd Floor",
-          "rooms": 
-          [
-            { "name": "Room A", "x": 50, "y": 50, "width": 50, "height": 40, "color": "green" },
-            { "name": "Room B", "x": 350, "y": 50, "width": 15, "height": 15, "color": "beige" }
+          "color": "DarkGrey",
+          "points": [[60,60],[60,390],[990,390],[990,60]],
+          "rooms": [
+            {
+              "name": "Office 3",
+              "fontsize": 15,
+              "points": [[200,200],[200,300],[300,300],[300,200]],
+              "color": "Green"
+            },
+            {
+              "name": "Office 4",
+              "fontsize": 15,
+              "points": [[500,200],[500,350],[800,350],[800,200]],
+              "color": "Blue"
+            }
           ]
         }
       ]
     },
     {
       "name": "Building B",
-      "levels": 
-      [
+      "color": "Grey",
+      "points": [[50,50],[50,400],[1000,400],[1000,50]],
+      "levels": [
         {
-          "name": "1st Floor",
-          "rooms": 
-          [
-            { "name": "Lobby", "x": 100, "y": 100, "width": 200, "height": 150, "color": "red" }
+          "name": "Ground Floor",
+          "color": "DarkGrey",
+          "points": [[60,60],[60,390],[990,390],[990,60]],
+          "rooms": [
+            {
+              "name": "Storage",
+              "fontsize": 15,
+              "points": [[500,200],[500,350],[800,350],[800,200]],
+              "color": "LightGreen"
+            }
           ]
         }
       ]

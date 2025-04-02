@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () =>
                   },
                   {
                     "name": "Office 2",
+                    "fontsize": 15,
                     "points": [[500, 200], [500, 350], [800, 350], [800, 200]],
                     "color": "LightBlue"
                   }
@@ -38,15 +39,16 @@ document.addEventListener("DOMContentLoaded", () =>
               "rooms":
                 [
                   {
-                    "name": "Office 1",
+                    "name": "Office 3",
                     "fontsize": 15,
-                    "points": [[60, 60], [160, 60], [160, 200], [60, 200]],
-                    "color": "Red"
+                    "points": [[200, 200], [200, 300], [300, 300], [300, 200]],
+                    "color": "Green"
                   },
                   {
-                    "name": "Office 2",
+                    "name": "Office 4",
+                    "fontsize": 15,
                     "points": [[500, 200], [500, 350], [800, 350], [800, 200]],
-                    "color": "LightBlue"
+                    "color": "Blue"
                   }
                 ]
             }
@@ -65,9 +67,10 @@ document.addEventListener("DOMContentLoaded", () =>
               "rooms":
                 [
                   {
-                    "name": "Office 1",
+                    "name": "Storage",
+                    "fontsize": 15,
                     "points": [[20, 20], [100, 20], [100, 100], [20, 100]],
-                    "color": "lightblue"
+                    "color": "LightGreen"
                   }
                 ]
             }

@@ -91,6 +91,10 @@ export function validateInputData(input)
         {
           throw new Error(`room ${roomIndex} in level ${levelIndex} of building ${buildingIndex} has no valid color`);
         }
+        if (typeof room.fontsize !== "number" || room.fontsize < 1)
+        {
+          throw new Error(`room ${roomIndex} in level ${levelIndex} of building ${buildingIndex} has no valid fontsize`);
+        }
         if (!Array.isArray(room.points))
         {
           throw new Error(`room ${roomIndex} in level ${levelIndex} of building ${buildingIndex} has invalid points`);
